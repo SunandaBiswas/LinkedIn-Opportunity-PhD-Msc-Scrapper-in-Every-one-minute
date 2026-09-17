@@ -14,9 +14,13 @@ country/round plus a "Master Summary" dashboard sheet on top.
 
 HOW TO RUN IT
 --------------
-1. Make sure All_Countries_Funded_PhD_Masters_Master.xlsx is CLOSED in
-   Excel - the script can't overwrite it while it's open.
-2. Double-click Build_Master_Workbook.bat in this folder.
+1. Close All_Countries_Funded_PhD_Masters_Master.xlsx AND every country
+   source workbook you want included, if they're open in Excel - the
+   script can't fully read/overwrite a file that's open elsewhere. (A file
+   left open is now just skipped with a warning rather than crashing the
+   whole run, but its numbers won't be up to date until you close it and
+   run again.)
+2. Double-click Build_Master_Workbook.bat.
 3. A command window opens, checks/installs Python's "openpyxl" package if
    needed, then rebuilds the master workbook.
 4. Read the summary it prints (see below), then press any key to close the
@@ -30,19 +34,36 @@ READING THE OUTPUT
 --------------------
 For each source file found, you'll see a line like:
     +  India PhD                   12 rows   (was  10,  +2)   <- India_University_PhD_LinkedIn_Postings.xlsx
+        -> 2 new posting(s) saved to New_Entries/India_PhD_New_Entries_2026-09-17.xlsx
 
     "12 rows"        = how many postings are in that source file right now
     "(was 10, +2)"   = it had 10 entries last time you built the master;
                        2 of those 12 are new since then
+    the "-> ... saved to New_Entries/..." line only appears when there
+    really are new postings for that country/round
 
 At the end you get the overall picture across every source file combined:
     Previous total entries : 55
     New entries this run    : +3
     Total entries now       : 58
 
-The same three numbers are also written into the "Master Summary" sheet's
-second line inside the Excel file itself, so they're on record even after
-you close the command window.
+These same three numbers are also written into the "Master Summary"
+sheet's second line inside the Excel file itself, so they're on record
+even after you close the command window.
+
+CHECKING WHAT'S NEW (New_Entries subfolder)
+----------------------------------------------
+Whenever a run finds genuinely new postings for a country/round, it saves
+them - and only them - into a "New_Entries" subfolder next to this file,
+named like:
+    New_Entries/India_PhD_New_Entries_2026-09-17.xlsx
+    New_Entries/Germany_Masters_New_Entries_2026-09-17.xlsx
+
+Open one of these small files to check exactly what came in that day,
+without digging through the full master workbook. "New" is worked out by
+matching each posting's LinkedIn Post Link against what the master
+workbook already had, so it correctly catches a posting added anywhere in
+the source file (not just ones appended to the end).
 
 RUNNING IT MANUALLY (advanced - from Command Prompt)
 -------------------------------------------------------
@@ -59,5 +80,7 @@ TROUBLESHOOTING
   setup, then run the .bat again.
 - "No '*_University_PhD...' files found" -> either you're not running it
   from this folder, or no per-country workbooks have been saved here yet.
+- A source file is listed as "Skipped ... couldn't read it" -> that
+  workbook is open in Excel right now; close it and run the .bat again.
 - Master workbook won't save / "Permission denied" -> it's open in Excel;
   close it and run the .bat again.

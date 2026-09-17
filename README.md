@@ -10,7 +10,9 @@ Each country's postings live in their own small Excel workbook. This tool
 scans a folder for every one of those workbooks, pulls their rows into one
 combined file with a sheet per country/round, and builds a dashboard sheet on
 top that totals everything up — including how many postings are new since the
-last time you ran it.
+last time you ran it. Any genuinely new postings are also saved as their own
+small snapshot file per country/round, so you can check exactly what's new
+without opening the full master workbook.
 
 It's a pure local-file tool: it never logs into LinkedIn, never needs a
 password, and only ever reads `.xlsx` files that already exist in the folder.
@@ -25,6 +27,7 @@ password, and only ever reads `.xlsx` files that already exist in the folder.
 | `<Country>_University_PhD_LinkedIn_Postings.xlsx` | One per country — funded PhD postings. |
 | `<Country>_University_Masters_Funded_LinkedIn_Postings.xlsx` | One per country — funded Masters postings. |
 | `All_Countries_Funded_PhD_Masters_Master.xlsx` | Generated output — the combined master workbook. Rebuilt on every run, don't hand-edit it. |
+| `New_Entries/<Country>_<Round>_New_Entries_<date>.xlsx` | Generated output — one small snapshot file per country/round, created only when that run found genuinely new postings. |
 
 Each per-country source workbook must contain a sheet named `All Postings`
 with these 13 columns:
