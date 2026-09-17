@@ -1,0 +1,63 @@
+LinkedInSunanda - LinkedIn Postings Master Workbook
+====================================================
+
+WHAT THIS FOLDER DOES
+----------------------
+Claude saves each country's funded PhD / Masters LinkedIn postings into its
+own workbook here, named:
+    <Country>_University_PhD_LinkedIn_Postings.xlsx
+    <Country>_University_Masters_Funded_LinkedIn_Postings.xlsx
+
+Build_Master_Workbook.bat combines every one of those into a single file,
+All_Countries_Funded_PhD_Masters_Master.xlsx, with one sheet per
+country/round plus a "Master Summary" dashboard sheet on top.
+
+HOW TO RUN IT
+--------------
+1. Make sure All_Countries_Funded_PhD_Masters_Master.xlsx is CLOSED in
+   Excel - the script can't overwrite it while it's open.
+2. Double-click Build_Master_Workbook.bat in this folder.
+3. A command window opens, checks/installs Python's "openpyxl" package if
+   needed, then rebuilds the master workbook.
+4. Read the summary it prints (see below), then press any key to close the
+   window, or open All_Countries_Funded_PhD_Masters_Master.xlsx directly.
+
+It's always safe to re-run - it just re-reads whatever .xlsx files are
+currently sitting in this folder. Run it again any time after Claude adds
+or refreshes a country's workbook.
+
+READING THE OUTPUT
+--------------------
+For each source file found, you'll see a line like:
+    +  India PhD                   12 rows   (was  10,  +2)   <- India_University_PhD_LinkedIn_Postings.xlsx
+
+    "12 rows"        = how many postings are in that source file right now
+    "(was 10, +2)"   = it had 10 entries last time you built the master;
+                       2 of those 12 are new since then
+
+At the end you get the overall picture across every source file combined:
+    Previous total entries : 55
+    New entries this run    : +3
+    Total entries now       : 58
+
+The same three numbers are also written into the "Master Summary" sheet's
+second line inside the Excel file itself, so they're on record even after
+you close the command window.
+
+RUNNING IT MANUALLY (advanced - from Command Prompt)
+-------------------------------------------------------
+    cd /d D:\LinkedInSunanda
+    python build_master_workbook.py
+
+    To point it at a different folder instead:
+    python build_master_workbook.py "C:\path\to\other\folder"
+
+TROUBLESHOOTING
+-----------------
+- "Python was not found on this PC" -> install Python from
+  https://www.python.org/downloads/, tick "Add Python to PATH" during
+  setup, then run the .bat again.
+- "No '*_University_PhD...' files found" -> either you're not running it
+  from this folder, or no per-country workbooks have been saved here yet.
+- Master workbook won't save / "Permission denied" -> it's open in Excel;
+  close it and run the .bat again.
